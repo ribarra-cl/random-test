@@ -6,24 +6,29 @@ import cl.random.test.interactors.MainInteractor
 import cl.random.test.models.Country
 import cl.random.test.views.MainView
 
-class MainPresenter(var mainView: MainView, val interactor: MainInteractor) :
+class MainPresenter(var view: MainView, val interactor: MainInteractor) :
 OnCountriesFetched {
 
     fun fetch()
     {
-        mainView.showLoading();
+        view.showLoading();
         interactor.fetchCountries(this)
     }
 
     override fun onSuccess(countries: List<Country>) {
-        mainView.hideLoading()
-        mainView.updateCountries(countries)
+        view.hideLoading()
+        view.updateCountries(countries)
     }
 
     override fun onFailure(t: Throwable) {
         TODO("Not yet implemented")
-        mainView.hideLoading()
+        view.hideLoading()
         Log.d("TAG", "error" + t.toString());
+    }
+
+    fun goToCountry(country: Country)
+    {
+        view.goToCountry(country)
     }
 }
 

@@ -2,8 +2,10 @@ package cl.random.test.views
 
 import cl.random.test.models.Country
 
-interface MainView {
+interface CountryView {
 
+    fun setup()
+/*
     // on create
     fun onReady()
 
@@ -13,7 +15,6 @@ interface MainView {
 
     // update
     fun updateCountries(countries: List<Country>)
+    */
 
-    // navigation
-    fun goToCountry(country: Country)
 }

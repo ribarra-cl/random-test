@@ -1,10 +1,13 @@
-package cl.random.test
+package cl.random.test.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import cl.random.test.R
 import cl.random.test.interactors.MainInteractor
 import cl.random.test.models.Country
 import cl.random.test.presenter.MainPresenter
@@ -17,7 +20,7 @@ class MainActivity : AppCompatActivity(), MainView {
     lateinit var recyclerView: RecyclerView
 
     private val presenter = MainPresenter(this, MainInteractor())
-    private val adapter = CountriesAdapter(this)
+    private val adapter = CountriesAdapter(this, presenter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,5 +50,12 @@ class MainActivity : AppCompatActivity(), MainView {
         adapter.updateCountries(countries)
         adapter.notifyDataSetChanged()
 
+    }
+
+    override fun goToCountry(country: Country) {
+        val intent = Intent(this, CountryActivity::class.java).apply{
+            putExtra("country", country)
+        }
+        startActivity(intent)
     }
 }
