@@ -7,13 +7,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="title">
-        <item name="android:textSize">24dp</item>
+    <style name="Title">
+        <item name="android:textSize">18dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="regular">
-        <item name="android:textSize">16dp</item>
+    <style name="Regular">
+        <item name="android:textSize">12dp</item>
     </style>
 
 </resources>

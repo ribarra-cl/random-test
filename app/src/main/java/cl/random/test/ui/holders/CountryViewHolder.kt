@@ -26,9 +26,8 @@ class CountryViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     }
 
     fun bind(country: Country, context: Context) {
-        Log.d("TAG", "bind " + country.name + "- " + country.flag)
         name.text = country.name
-        capital.text = country.capital
+        capital.text = "Capital: ${country.capital}"
         GlideToVectorYou.init().with(context).load(Uri.parse(country.flag), flag)
     }
 
