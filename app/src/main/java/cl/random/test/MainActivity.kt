@@ -1,36 +1,48 @@
 package cl.random.test
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import cl.random.test.models.Country
-import cl.random.test.services.CountryBuilder
-import cl.random.test.services.CountryService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import cl.random.test.interactors.MainInteractor
+import cl.random.test.presenter.MainPresenter
+import cl.random.test.views.MainView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainView {
+
+    lateinit var progressBar: ProgressBar
+    lateinit var textView: TextView
+
+    private val presenter = MainPresenter(this, MainInteractor())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val request = CountryBuilder.buildService(CountryService::class.java)
-        val call = request.getCountryList()
+        progressBar = findViewById<ProgressBar>(R.id.progress)
+        textView =  findViewById<TextView>(R.id.country)
 
-        call.enqueue(object : Callback<List<Country>> {
-            override fun onResponse(call: Call<List<Country>>, response: Response<List<Country>>) {
-                Log.d("response", response.body()!!.first().name);
-                if (response.isSuccessful){
-                    Log.d("response", response.body()!!.first().name);
+        presenter.fetch()
+    }
 
-                }
-            }
-            override fun onFailure(call: Call<List<Country>>, t: Throwable) {
-                Log.d("failure", t.toString());
-                Toast.makeText(this@MainActivity, "${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+    override fun onReady()
+    {
+
+    }
+
+    override fun showLoading()
+    {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading()
+    {
+        progressBar.visibility = View.GONE
+    }
+
+    override fun showCountries(total: Int)
+    {
+        textView.setText("found " + total + "countries")
     }
 }
