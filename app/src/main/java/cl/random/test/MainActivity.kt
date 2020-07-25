@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), MainView {
     lateinit var recyclerView: RecyclerView
 
     private val presenter = MainPresenter(this, MainInteractor())
-    private val adapter = CountriesAdapter()
+    private val adapter = CountriesAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
