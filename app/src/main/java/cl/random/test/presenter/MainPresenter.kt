@@ -16,9 +16,8 @@ OnCountriesFetched {
     }
 
     override fun onSuccess(countries: List<Country>) {
-        mainView?.hideLoading()
-        mainView.showCountries(countries.size)
-        //interactor.fetchCountries(this)
+        mainView.hideLoading()
+        mainView.updateCountries(countries)
     }
 
     override fun onFailure(t: Throwable) {

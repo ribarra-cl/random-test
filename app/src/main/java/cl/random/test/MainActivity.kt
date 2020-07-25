@@ -1,12 +1,12 @@
 package cl.random.test
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import cl.random.test.interactors.MainInteractor
+import cl.random.test.models.Country
 import cl.random.test.presenter.MainPresenter
 import cl.random.test.ui.adapters.CountriesAdapter
 import cl.random.test.views.MainView
@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(), MainView {
     lateinit var recyclerView: RecyclerView
 
     private val presenter = MainPresenter(this, MainInteractor())
+    private val adapter = CountriesAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,6 @@ class MainActivity : AppCompatActivity(), MainView {
         progressBar = findViewById(R.id.progress)
         recyclerView = findViewById(R.id.main_recycler_view)
 
-        var adapter = CountriesAdapter()
         recyclerView.adapter = adapter
 
         presenter.fetch()
@@ -43,7 +43,9 @@ class MainActivity : AppCompatActivity(), MainView {
         progressBar.visibility = View.GONE
     }
 
-    override fun showCountries(total: Int) {
-        Log.d("TAG", "forst" + total + "countries");
+    override fun updateCountries(countries: List<Country>) {
+        adapter.updateCountries(countries)
+        adapter.notifyDataSetChanged()
+
     }
 }

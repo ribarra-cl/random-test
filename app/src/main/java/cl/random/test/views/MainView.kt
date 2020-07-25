@@ -1,7 +1,8 @@
 package cl.random.test.views
 
-interface MainView
-{
+import cl.random.test.models.Country
+
+interface MainView {
 
     // on create
     fun onReady()
@@ -10,5 +11,6 @@ interface MainView
     fun showLoading()
     fun hideLoading()
 
-    fun showCountries(total: Int);
+    // update
+    fun updateCountries(countries: List<Country>)
 }
