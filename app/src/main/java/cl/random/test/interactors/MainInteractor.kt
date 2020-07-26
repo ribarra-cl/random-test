@@ -27,8 +27,9 @@ class MainInteractor
 
                 }
             }
-            override fun onFailure(call: Call<List<Country>>, t: Throwable) {
-                Log.d("failure", t.toString())
+            override fun onFailure(call: Call<List<Country>>, throwable: Throwable) {
+                Log.d("failure", throwable.toString())
+                callback.onFailure(throwable)
                 //Toast.makeText(this@MainActivity, "${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

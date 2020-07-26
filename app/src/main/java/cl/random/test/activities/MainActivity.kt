@@ -2,11 +2,14 @@ package cl.random.test.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import cl.random.test.R
 import cl.random.test.interactors.MainInteractor
 import cl.random.test.models.Country
@@ -16,7 +19,7 @@ import cl.random.test.views.MainView
 
 class MainActivity : AppCompatActivity(), MainView {
 
-    lateinit var progressBar: ProgressBar
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     lateinit var recyclerView: RecyclerView
 
     private val presenter = MainPresenter(this, MainInteractor())
@@ -26,24 +29,20 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        progressBar = findViewById(R.id.progress)
+        swipeRefreshLayout = findViewById(R.id.main_swipe_layout)
+        swipeRefreshLayout.setOnRefreshListener { presenter.fetch() }
         recyclerView = findViewById(R.id.main_recycler_view)
-
         recyclerView.adapter = adapter
 
         presenter.fetch()
     }
 
-    override fun onReady() {
-
-    }
-
     override fun showLoading() {
-        progressBar.visibility = View.VISIBLE
+        swipeRefreshLayout.isRefreshing = true
     }
 
     override fun hideLoading() {
-        progressBar.visibility = View.GONE
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun updateCountries(countries: List<Country>) {
@@ -57,5 +56,10 @@ class MainActivity : AppCompatActivity(), MainView {
             putExtra("country", country)
         }
         startActivity(intent)
+    }
+
+    override fun onFailure() {
+        Log.d("TAG", "Onb failyre")
+        Toast.makeText(this, "Error cargando, intente recargar", Toast.LENGTH_LONG).show()
     }
 }

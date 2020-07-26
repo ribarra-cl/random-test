@@ -7,10 +7,9 @@ import cl.random.test.models.Country
 import cl.random.test.views.MainView
 
 class MainPresenter(var view: MainView, val interactor: MainInteractor) :
-OnCountriesFetched {
+    OnCountriesFetched {
 
-    fun fetch()
-    {
+    fun fetch() {
         view.showLoading();
         interactor.fetchCountries(this)
     }
@@ -21,13 +20,11 @@ OnCountriesFetched {
     }
 
     override fun onFailure(t: Throwable) {
-        TODO("Not yet implemented")
         view.hideLoading()
-        Log.d("TAG", "error" + t.toString());
+        view.onFailure()
     }
 
-    fun goToCountry(country: Country)
-    {
+    fun goToCountry(country: Country) {
         view.goToCountry(country)
     }
 }
